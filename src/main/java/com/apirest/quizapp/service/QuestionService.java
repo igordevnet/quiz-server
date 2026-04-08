@@ -1,6 +1,8 @@
 package com.apirest.quizapp.service;
 
 import com.apirest.quizapp.dto.QuestionRequest;
+import com.apirest.quizapp.dto.QuestionResponse;
+import com.apirest.quizapp.mapper.QuestionMapper;
 import com.apirest.quizapp.model.Option;
 import com.apirest.quizapp.model.Question;
 import com.apirest.quizapp.repository.QuestionRepository;
@@ -15,29 +17,34 @@ import java.util.List;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
-    private final OptionService optionService;
+    private final QuestionMapper questionMapper;
 
-    public List<Question> getAllQuestions() {
-       return questionRepository.findAll();
+    public List<QuestionResponse> getAllQuestions() {
+
+        List<Question> questions = questionRepository.findAll();
+
+        return questionMapper.toResponseList(questions);
     }
 
-    public void addQuestion(QuestionRequest question) {
+    public void addQuestion(QuestionRequest questionReq) {
+        Question question = questionMapper.toEntity(questionReq);
+
         questionRepository.save(question);
 
-        List<Option> options = question.getOptions();
-
-        for(Option option : options){
-            option.setQuestion(question);
+        if (question.getOptions() != null) {
+            question.getOptions().forEach(option -> option.setQuestion(question));
         }
-
-        optionService.saveOptions(options);
     }
 
-    public List<Question> getQuestionsByCategory(String category) {
-        return questionRepository.findByCategory(category);
+    public List<QuestionResponse> getQuestionsByCategory(String category) {
+        List<Question> questions = questionRepository.findByCategory(category);
+
+        return questionMapper.toResponseList(questions);
     }
 
-    public List<Question> getQuestionsByDifficultLevel(String level) {
-        return questionRepository.findByDifficultyLevel(level);
+    public List<QuestionResponse> getQuestionsByDifficultLevel(String level) {
+        List<Question> questions = questionRepository.findByDifficultyLevel(level);
+
+        return questionMapper.toResponseList(questions);
     }
 }
