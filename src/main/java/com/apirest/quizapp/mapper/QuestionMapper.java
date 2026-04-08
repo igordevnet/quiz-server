@@ -1,7 +1,7 @@
 package com.apirest.quizapp.mapper;
 
-import com.apirest.quizapp.dto.QuestionRequest;
-import com.apirest.quizapp.dto.QuestionResponse;
+import com.apirest.quizapp.dto.request.QuestionRequest;
+import com.apirest.quizapp.dto.response.QuestionResponse;
 import com.apirest.quizapp.model.Question;
 import org.mapstruct.Mapper;
 

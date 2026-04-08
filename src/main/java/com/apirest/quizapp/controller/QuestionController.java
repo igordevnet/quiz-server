@@ -1,10 +1,9 @@
-package com.apirest.quizapp;
+package com.apirest.quizapp.controller;
 
-import com.apirest.quizapp.dto.QuestionRequest;
-import com.apirest.quizapp.dto.QuestionResponse;
-import com.apirest.quizapp.model.Question;
+import com.apirest.quizapp.dto.request.QuestionRequest;
+import com.apirest.quizapp.dto.response.QuestionResponse;
 import com.apirest.quizapp.service.QuestionService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/question")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class QuestionController {
 
     private final QuestionService questionService;
@@ -23,17 +22,17 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.getAllQuestions());
     }
 
-    @GetMapping("/questions/category/{category}")
+    @GetMapping("/category/{category}")
     public ResponseEntity<List<QuestionResponse>> getQuestionsByCategory(
             @PathVariable() String category
     ) {
         return ResponseEntity.ok(questionService.getQuestionsByCategory(category));
     }
 
-    @GetMapping("/questions/level/{level}")
+    @GetMapping("/level/{level}")
     public ResponseEntity<List<QuestionResponse>> getQuestionsByDifficultyLevel(
             @PathVariable() String level
-    ) throws Exception {
+    ) {
         return ResponseEntity.ok(questionService.getQuestionsByDifficultLevel(level));
     }
 

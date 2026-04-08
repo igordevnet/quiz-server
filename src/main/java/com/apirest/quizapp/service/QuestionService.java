@@ -1,19 +1,17 @@
 package com.apirest.quizapp.service;
 
-import com.apirest.quizapp.dto.QuestionRequest;
-import com.apirest.quizapp.dto.QuestionResponse;
+import com.apirest.quizapp.dto.request.QuestionRequest;
+import com.apirest.quizapp.dto.response.QuestionResponse;
 import com.apirest.quizapp.mapper.QuestionMapper;
-import com.apirest.quizapp.model.Option;
 import com.apirest.quizapp.model.Question;
 import com.apirest.quizapp.repository.QuestionRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
@@ -46,5 +44,9 @@ public class QuestionService {
         List<Question> questions = questionRepository.findByDifficultyLevel(level);
 
         return questionMapper.toResponseList(questions);
+    }
+
+    public List<Question> findRandomQuestionsByCategory(String category, Integer nQuestions) {
+        return questionRepository.findRandomQuestionsByCategory(category, nQuestions);
     }
 }

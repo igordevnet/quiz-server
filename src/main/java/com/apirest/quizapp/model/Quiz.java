@@ -1,6 +1,5 @@
 package com.apirest.quizapp.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,23 +11,18 @@ import java.util.List;
 
 @Data
 @Entity
-@ToString(exclude = "options")
+@ToString(exclude = "questions")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Question {
+public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String questionTitle;
+    private String title;
     private String category;
-    private String rightAnswer;
-    private String difficultyLevel;
+    private Integer nQuestions;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<Option> options;
-
-    @ManyToMany
-    @JsonBackReference
-    private List<Quiz> quizzes;
+    private List<Question> questions;
 }

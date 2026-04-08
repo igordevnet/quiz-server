@@ -1,4 +1,4 @@
-package com.apirest.quizapp.dto;
+package com.apirest.quizapp.dto.request;
 
 import com.apirest.quizapp.model.Option;
 
