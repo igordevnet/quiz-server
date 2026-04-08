@@ -1,6 +1,8 @@
 package com.apirest.quizapp.controller;
 
+import com.apirest.quizapp.dto.request.CheckAnswersRequest;
 import com.apirest.quizapp.dto.request.QuizRequest;
+import com.apirest.quizapp.dto.response.QuizDetailResponse;
 import com.apirest.quizapp.dto.response.QuizResponse;
 import com.apirest.quizapp.service.QuizService;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +28,23 @@ public class QuizController {
     @GetMapping("/quizzes")
     public ResponseEntity<List<QuizResponse>> getAllQuizzes() {
         return ResponseEntity.ok(quizService.getAllQuizzes());
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<QuizDetailResponse> getQuizDetails(
+            @PathVariable Integer id
+    ) {
+        QuizDetailResponse quizDetails = quizService.getQuizDetails(id);
+
+        return ResponseEntity.ok(quizDetails);
+    }
+
+    @PostMapping("/check")
+    public ResponseEntity<Integer>  checkAnswers(
+            @RequestBody CheckAnswersRequest answers
+    ) {
+        int correctAnswers = quizService.checkAnswers(answers);
+
+        return ResponseEntity.ok(correctAnswers);
     }
 }
